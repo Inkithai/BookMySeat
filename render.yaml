@@ -1,0 +1,32 @@
+# Render Blueprint for the BookMySeat API.
+# Render dashboard -> New -> Blueprint -> pick this repository.
+# You will be asked for DATABASE_URL (the Supabase "Session pooler" string).
+services:
+  - type: web
+    name: bookmyseat-api
+    runtime: node
+    plan: free
+    region: singapore
+    # NODE_ENV=production also applies to the build, so devDependencies
+    # (TypeScript) have to be requested explicitly.
+    buildCommand: npm ci --include=dev && npm run build:api
+    startCommand: npm start
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: NODE_ENV
+        value: production
+      # Render runs in UTC; "today" for the demo workshops should be local.
+      - key: TZ
+        value: Asia/Colombo
+      - key: DATABASE_URL
+        sync: false
+      # Fill an empty database with the demo accounts and workshops.
+      - key: SEED_DEMO_DATA
+        value: "true"
+      - key: DATABASE_POOL_SIZE
+        value: "5"
+      - key: SESSION_TTL_DAYS
+        value: "14"

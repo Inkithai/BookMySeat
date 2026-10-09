@@ -1,0 +1,25 @@
+# dependencies
+node_modules/
+
+# build output
+dist/
+server/dist/
+client/dist/
+
+# local database + runtime data
+data/
+*.db
+*.db-wal
+*.db-shm
+
+# env / logs
+.env
+.env.*
+!.env.production.example
+npm-debug.log*
+*.log
+
+# os / editor
+.DS_Store
+.idea/
+.vscode/
